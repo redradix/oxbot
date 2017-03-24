@@ -6,14 +6,14 @@ From your `index.js`:
 
 ```javascript
 const config = require('config');
-const botox = require('./botox');
+const oxbot = require('./oxbot');
 const treeNodes = require('./modules/tree');
 
-botox
+oxbot
   .setup(config.bot)
   .then(({ treeSet, server, queue, db }) => {
     const token = config.bot.telegram.token;
-    const chat = botox.telegram(token);
+    const chat = oxbot.telegram(token);
     const tree = treeNodes(chat);
     treeSet(tree);
 
