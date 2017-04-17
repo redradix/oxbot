@@ -12,7 +12,7 @@ class BotStorage {
 
   getUserState(userid) {
     return ncall(this.db, 'findOne', { userid })
-      .then(state => state || initialState);
+      .then(state => state || Object.assign({}, initialState);
   }
 
   persistUserState(userid, state) {

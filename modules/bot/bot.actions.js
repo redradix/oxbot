@@ -11,12 +11,12 @@ function parse(value) {
   }
 }
 
-function dispatchToDecisionTree(tree, path, state, input, db) {
+function dispatchToDecisionTree(tree, path, state, input, db, chat) {
   return decisionTree
     .getNode(tree, path)
     .then(currentNode => decisionTree.advance(tree, currentNode, state, input,
                                               db))
-    .then(nextNode => decisionTree.runNode(tree, nextNode, state, input, db));
+    .then(nextNode => decisionTree.runNode(tree, nextNode, state, input, db, chat));
 }
 
 module.exports = {
@@ -31,7 +31,7 @@ module.exports = {
       dispatch,
       userid,
     };
-    return dispatchToDecisionTree(tree, path, state, input, db);
+    return dispatchToDecisionTree(tree, path, state, input, db, action.chat);
   },
   BOT_INTERNAL_ACTION: (state, action, dispatch, tree, db) => {
     // TODO: do NOT interrupt an ongoing conversation
@@ -65,6 +65,6 @@ module.exports = {
       dispatch,
       userid,
     };
-    return dispatchToDecisionTree(tree, path, state, input, db);
+    return dispatchToDecisionTree(tree, path, state, input, db, action.chat);
   },
 };

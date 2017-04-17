@@ -6,20 +6,13 @@ const _db = require('./base/db');
 const _static = require('./base/static');
 // app modules
 const Queue = require('./modules/queue');
-// web modules
-// const webhook = require('./modules/webhook');
-// telegram events
-const telegramEvents = require('./modules/telegram_events');
+const events = require('./modules/web_events');
 // bot modules
 const botMain = require('./modules/bot');
 const decisionTree = require('./modules/decisionTree');
 // exported API
-const messenger = require('./modules/messenger');
 const commands = require('./modules/decisionTree/tree.commands');
-// telegram API
-const telegram = require('./modules/telegram/telegram.send');
 
-// const webModules = { webhook };
 const botModules = { botMain };
 
 // -------------------------
@@ -54,6 +47,7 @@ function setup(userConfig) {
       const treeGet = () => tree;
       const treeSet = (v) => tree = v;
 
+
       // -------------------------
       // initialize the web modules
       // const { verifyToken } = config;
@@ -62,7 +56,7 @@ function setup(userConfig) {
       //     module(`${config.apiPrefix}/${key}`, verifyToken, db, queue)
       //   );
       // });
-      telegramEvents(db, queue, config);
+      events(db, queue, config, server);
 
       // -------------------------
       // initialize the bot modules
@@ -74,9 +68,8 @@ function setup(userConfig) {
       // server static files
       _static(server);
       server.start();
-
       return { db, server, queue, treeSet };
     });
 }
 
-module.exports = { setup, messenger, telegram, commands };
+module.exports = { setup, commands };
