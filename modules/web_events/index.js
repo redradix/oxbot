@@ -11,7 +11,7 @@ const websockets = require('socket.io');
 
 
 module.exports = (db, queue, config, server) => {
-  const io = websockets(server.listener, {origins:'http://localhost:3000 https://localhost:3000'})
+  const io = websockets(server.listener, {origins: '*:*'})
   io.on('connection', (socket) => {
     socket.on('message', (payload, cb) => {
       queue.push({
